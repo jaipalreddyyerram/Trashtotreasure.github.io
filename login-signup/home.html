@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trash to Treasure</title>
+    <link rel="stylesheet" href="homecss.css">
+</head>
+
+<body>
+    <!-- <h1>This is home page</h1>\ -->
+
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="intro.html">Home</a></li>
+                <li><a href="Items.html">Items</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Welcome to Trash to Treasure</h1>
+            <p>Transforming discarded items into valuable treasures!</p>
+        </section>
+
+        <section class="services">
+            <h2>Our Services</h2>
+            <div class="service-item">
+                <h3>Upcycling Workshops</h3>
+                <p>Join our workshops and learn how to turn trash into beautiful pieces.</p>
+            </div>
+            <div class="service-item">
+                <h3>Recycling Consultation</h3>
+                <p>Get expert advice on recycling practices and waste management.</p>
+            </div>
+            <!-- Add more service items -->
+        </section>
+    </main>
+
+    <button id="signout" >SignOut</button>
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDWBeleUtFDDbn5hS78rgvK5ETtE4oJ6XU",
+            authDomain: "trash-aa429.firebaseapp.com",
+            databaseURL: "https://trash-aa429-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "trash-aa429",
+            storageBucket: "trash-aa429.appspot.com",
+            messagingSenderId: "393587470894",
+            appId: "1:393587470894:web:ee9ee413cf5819ddb8a5bf"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth();
+
+        const signout = document.getElementById('signout');
+
+        signout.addEventListener('click', (e) => {
+
+            signOut(auth).then(() => {
+                // Sign-out successful.
+                window.location.assign("loginSignup.html");
+                alert("Signing out. Please Wait...");
+
+            }).catch((error) => {
+                alert(error);
+            });
+        })
+    </script>
+
+
+
+</body>
+
+</html>

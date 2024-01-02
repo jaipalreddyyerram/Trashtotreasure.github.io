@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css">
+
+
+</head>
+
+
+<body>
+    <div class="container">
+
+        <div id="loginTitle" class="loginTitle">
+            <div class="title login">Login Form</div>
+        </div>
+
+        <div id="loginForm" class="loginForm">
+            <input id="Email" type="email" name="email" placeholder="Email Address" required autocomplete="off"> <br>
+            <input id="Password" type="password" name="password" placeholder="Password" required>
+
+            <div class="pass-link"><a href="#">Forgot password?</a></div>
+
+            <button id="logIn" class="loginButton" type="submit">Login</button>
+            <button id="signup-link" class="signup-link" onclick="signupLink();">Not a member? Signup now</button>
+            <button id="gLogin" class="gLogin" onclick=""><img src="google_logo.png" width="200px" alt=""></button>
+            <!-- <a href="" id="signup-link" class="signup-link" onclick="signupLink()">Not a member? Signup now</a> -->
+
+        </div>
+
+
+        <div id="signupForm" class="signupForm">
+            <div class="signupTitle">Signup Form</div>
+
+            <input id="userName" type="text" name="userName" placeholder="Enter user name" required>
+            <input id="email" type="email" name="email" placeholder="Email Address" required autocomplete="off">
+            <input id="password" type="password" name="password" placeholder="Password" required> <br>
+            <button id="signUp" class="signupButton" type="submit">Signup</button>
+
+        </div>
+
+
+    </div>
+    </div>
+
+
+
+    <script>
+        function signupLink() {
+            const signupForm = document.getElementById('signupForm');
+            const loginForm = document.getElementById('loginForm');
+            const loginTitle = document.getElementById('loginTitle');
+            signupForm.style.display = 'inline';
+            loginForm.style.display = 'none';
+            loginTitle.style.display = 'none';
+        }
+
+
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithRedirect, getRedirectResult, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+  apiKey: "AIzaSyCnLCyup0GfSQ_yjS5v9xkeXy2riJaiJzA",
+  authDomain: "trashtotreasure-3c8d5.firebaseapp.com",
+  databaseURL: "https://trashtotreasure-3c8d5-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "trashtotreasure-3c8d5",
+  storageBucket: "trashtotreasure-3c8d5.appspot.com",
+  messagingSenderId: "963011649104",
+  appId: "1:963011649104:web:cd33f6ee2903cbff473b55"
+};
+
+
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth();
+
+        const provider = new GoogleAuthProvider(app);
+        const gLogIn = document.getElementById('gLogin');
+        gLogIn.addEventListener('click', (e) => {
+
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    const credential = GoogleAuthProvider.credentialFromResult(result);
+                    const token = credential.accessToken;
+                    // The signed-in user info.
+                    const user = result.user;
+                    // IdP data available using getAdditionalUserInfo(result)
+                    // ...
+                    alert(user.displayName);
+                    window.location.assign("home.html");
+                }).catch((error) => {
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // The email of the user's account used.
+                    const email = error.customData.email;
+                    // The AuthCredential type that was used.
+                    const credential = GoogleAuthProvider.credentialFromError(error);
+
+                    alert(errorMessage)
+                    // ...
+                });
+
+
+            /* signInWithRedirect(auth, provider);
+ 
+             getRedirectResult(auth)
+                 .then((result) => {
+                     // This gives you a Google Access Token. You can use it to access Google APIs.
+                     const credential = GoogleAuthProvider.credentialFromResult(result);
+                     const token = credential.accessToken;
+ 
+                     // The signed-in user info.
+                     const user = result.user;
+                     // IdP data available using getAdditionalUserInfo(result)
+                     // ...
+                 }).catch((error) => {
+                     // Handle Errors here.
+                     const errorCode = error.code;
+                     const errorMessage = error.message;
+                     // The email of the user's account used.
+                     const email = error.customData.email;
+                     // The AuthCredential type that was used.
+                     const credential = GoogleAuthProvider.credentialFromError(error);
+                     // ...
+                 }); */
+        })
+
+
+        const logIn = document.getElementById('logIn');
+        logIn.addEventListener('click', (e) => {
+
+            const email = document.getElementById('Email').value;
+            const password = document.getElementById('Password').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    window.location.assign("home.html");
+                    alert("Logged In");
+
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorMessage);
+                });
+        })
+
+
+        const signUp = document.getElementById('signUp');
+
+        signUp.addEventListener('click', (e) => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed up
+                    const user = userCredential.user;
+                    //realtime db
+                    /* set(ref(database, 'users/' + user.uid),{
+                         email: email
+                     }) */
+
+                    alert("Created");
+                    window.location.assign("loginSignup.html");
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+
+                    alert(errorMessage);
+                });
+        })
+
+
+
+    </script>
+
+
+
+</body>
+
+</html>

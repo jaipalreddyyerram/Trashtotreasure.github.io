@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f4;
+    }
+    
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    button {
+      width: calc(100% - 12px);
+      padding: 8px;
+      margin-bottom: 12px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    
+    button {
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    #displayDetails {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      margin: 20px auto;
+    }
+    
+    table {
+          width:100%;
+    }
+    
+    td {
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <form id="detailsForm">
+    <label for="place">Place:</label>
+    <input type="text" id="place" required><br><br>
+
+    <label for="location">Location:</label>
+    <input type="text" id="location" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="text" id="email" required><br><br>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" required><br><br>
+
+    <button type="submit">Add Details</button>
+  </form>
+
+  <div id="displayDetails"></div>
+
+  <script>
+    document.getElementById('detailsForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Get input values
+      var place = document.getElementById('place').value;
+      var location = document.getElementById('location').value;
+      var email = document.getElementById('email').value;
+      var quantity = document.getElementById('quantity').value;
+
+      // Display details below the form in a table
+      var detailsDisplay = document.getElementById('displayDetails');
+
+      // Check if table already exists
+      var existingTable = detailsDisplay.querySelector('table');
+      if (existingTable) {
+        var newRow = existingTable.insertRow(-1);
+
+        var placeCell = newRow.insertCell(0);
+        placeCell.textContent = place;
+
+        var locationCell = newRow.insertCell(1);
+        locationCell.textContent = location;
+
+        var emailCell = newRow.insertCell(2);
+        emailCell.textContent = email;
+
+        var quantityCell = newRow.insertCell(3);
+        quantityCell.textContent = quantity;
+      } else {
+        var table = document.createElement('table');
+        var tableHead = document.createElement('thead');
+        var headRow = document.createElement('tr');
+
+        var headers = ['Place', 'Location', 'Email', 'Quantity'];
+        headers.forEach(function(headerText) {
+          var th = document.createElement('th');
+          th.textContent = headerText;
+          headRow.appendChild(th);
+        });
+
+        tableHead.appendChild(headRow);
+        table.appendChild(tableHead);
+
+        var tableBody = document.createElement('tbody');
+        var newRow = tableBody.insertRow(0);
+
+        var placeCell = newRow.insertCell(0);
+        placeCell.textContent = place;
+
+        var locationCell = newRow.insertCell(1);
+        locationCell.textContent = location;
+
+        var emailCell = newRow.insertCell(2);
+        emailCell.textContent = email;
+
+        var quantityCell = newRow.insertCell(3);
+        quantityCell.textContent = quantity;
+
+        table.appendChild(tableBody);
+        detailsDisplay.appendChild(table);
+      }
+
+      // Clear form fields after submission
+      document.getElementById('place').value = '';
+      document.getElementById('location').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('quantity').value = '';
+    });
+  </script>
+  <!-- Add Firebase SDK -->
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+      apiKey: "AIzaSyCnLCyup0GfSQ_yjS5v9xkeXy2riJaiJzA",
+      authDomain: "trashtotreasure-3c8d5.firebaseapp.com",
+      databaseURL: "https://trashtotreasure-3c8d5-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "trashtotreasure-3c8d5",
+      storageBucket: "trashtotreasure-3c8d5.appspot.com",
+      messagingSenderId: "963011649104",
+      appId: "1:963011649104:web:cd33f6ee2903cbff473b55"
+    };
+
+  // Initialize Firebase
+  const firebaseApp = initializeApp(firebaseConfig);
+  const database = getDatabase(firebaseApp);
+
+  var contactFormDB = ref(database, 'detailsForm');
+
+  document.getElementById("detailsForm").addEventListener("submit", submitForm);
+
+  function submitForm(e) {
+    e.preventDefault();
+
+    var name = getElementVal('place');
+    var location = getElementVal('location');
+    var email = getElementVal('email');
+    var quantity = getElementVal('quantity');
+
+    // Push data to Firebase Realtime Database
+    push(contactFormDB, {
+      place: name,
+      location: location,
+      email: email,
+      quantity: quantity
+    });
+
+    console.log(name, location, email, quantity);
+  }
+
+  const getElementVal = (id) => {
+    return document.getElementById(id).value;
+  }
+</script>
+
+</body>
+</html>

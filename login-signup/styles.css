@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+html,
+body {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    place-items: center;
+    background: -webkit-linear-gradient(left, #003366, #004080, #0059b3, #0073e6);
+    color: #fff;
+}
+
+
+
+
+
+
+input {
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+button {
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+
+.loginTitle {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.loginForm input{
+    margin-left: 65px;
+    width: 70%;
+}
+
+.pass-link  {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-left: 100px;
+    margin-top: 10px;
+}
+.pass-link  a{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    text-decoration: none;
+    color: rgb(119, 223, 14);
+}
+
+.signup-link {
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-left: 68px;
+}
+
+.loginButton {
+    margin-left: 65px;
+    width: 70%;
+    font-weight: bold;
+    background-color: #5d91ea;
+}
+.loginButton:hover{
+
+    background-color: #b9e519;
+    color: rgb(219, 45, 45);
+    font-weight: bold;
+}
+
+
+.signupForm {
+    display: none;
+}
+
+
+.signupTitle {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.signupForm input{
+    margin-left: 65px;
+    width: 70%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+
+.signupButton {
+    margin-left: 65px;
+    width: 70%;
+}
+.gLogin {
+    margin-left: 52px;
+    width: 80%;
+}
+.gLogin img {
+    border-radius: 10px;
+    
+
+}
